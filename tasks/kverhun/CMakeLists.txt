@@ -43,6 +43,8 @@ add_library(TSP SHARED
     ${TSP_SOURCE_DIR}/TSP.cpp
     ${TSP_SOURCE_DIR}/GeneticAlgo.h
     ${TSP_SOURCE_DIR}/GeneticAlgo.cpp
+    ${TSP_SOURCE_DIR}/PredefinedConfigurations.h
+    ${TSP_SOURCE_DIR}/PredefinedConfigurations.cpp
 )
 target_compile_definitions(TSP PRIVATE TSP_LIBRARY)
 
