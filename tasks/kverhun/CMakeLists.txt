@@ -57,6 +57,7 @@ set(TSP_GUI_SOURCE_DIR 08-TSP/gui)
 add_executable(TSP_GUI ${TSP_GUI_SOURCE_DIR}/main.cpp)
 target_link_libraries(TSP_GUI Qt5::WinMain)
 qt5_use_modules(TSP_GUI Widgets)
+target_link_libraries(TSP_GUI TSP)
 ####################################################
 
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
