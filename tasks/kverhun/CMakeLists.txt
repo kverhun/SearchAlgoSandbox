@@ -20,6 +20,15 @@ ExternalProject_Add(
 ExternalProject_Get_Property(catch source_dir)
 set(CATCH_INCLUDE_DIR ${source_dir}/include CACHE INTERNAL "./catch")
 
+# Qt
+set(CMAKE_PREFIX_PATH "D:/dev/Qt/5.7/msvc2015_64")
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+# Find the QtWidgets library
+find_package(Qt5Core REQUIRED)
+
 project(Algorithms)
 
 ####################################################
@@ -46,7 +55,8 @@ add_dependencies(TSP_Tests TSP)
 
 set(TSP_GUI_SOURCE_DIR 08-TSP/gui)
 add_executable(TSP_GUI ${TSP_GUI_SOURCE_DIR}/main.cpp)
-
+target_link_libraries(TSP_GUI Qt5::WinMain)
+qt5_use_modules(TSP_GUI Widgets)
 ####################################################
 
 include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
