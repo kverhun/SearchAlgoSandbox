@@ -62,6 +62,10 @@ add_executable(TSP_GUI
     ${TSP_GUI_SOURCE_DIR}/MainWindow.cpp
     ${TSP_GUI_SOURCE_DIR}/TSPDrawingWidget.h
     ${TSP_GUI_SOURCE_DIR}/TSPDrawingWidget.cpp
+    ${TSP_GUI_SOURCE_DIR}/TSPSolver.h
+    ${TSP_GUI_SOURCE_DIR}/TSPSolver.cpp
+    ${TSP_GUI_SOURCE_DIR}/TSPSolverStatusReporter.h
+    ${TSP_GUI_SOURCE_DIR}/TSPSolverStatusReporter.cpp
     )
 
 
