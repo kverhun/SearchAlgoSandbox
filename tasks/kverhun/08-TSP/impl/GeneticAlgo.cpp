@@ -25,8 +25,7 @@ const GeneticSolver::TPopulation & GeneticSolver::GetCurrentPopulation() const
 
 void TSPGenetic::GeneticSolver::PerformSingleStep()
 {
-
-    const size_t g_num_new_paths = 50000;
+    const size_t g_num_new_paths = m_current_population.size() / 2;
 
     std::vector<TSP::TPath> new_paths;
 
