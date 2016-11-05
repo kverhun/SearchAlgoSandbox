@@ -74,12 +74,14 @@ TSP::TPath GeneticSolver::_Crossover(const TSP::TPath & i_first, const TSP::TPat
     std::mt19937 eng(rd()); // seed the generator
     std::uniform_int_distribution<> distr(0, size);
     size_t taken_from_first = distr(eng);
+    size_t taken_from_first_starting_from = distr(eng);
+
    // std::cout << taken_from_first << std::endl;
 
     size_t cur_index = 0;
-    while (cur_index < taken_from_first)
+    while (cur_index < taken_from_first && taken_from_first_starting_from + cur_index < size)
     {
-        result[cur_index] = i_first[cur_index];
+        result[cur_index] = i_first[taken_from_first_starting_from + cur_index];
         ++cur_index;
     }
     
