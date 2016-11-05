@@ -56,7 +56,15 @@ target_link_libraries(TSP_Tests PUBLIC TSP)
 add_dependencies(TSP_Tests TSP)
 
 set(TSP_GUI_SOURCE_DIR 08-TSP/gui)
-add_executable(TSP_GUI ${TSP_GUI_SOURCE_DIR}/main.cpp)
+add_executable(TSP_GUI 
+    ${TSP_GUI_SOURCE_DIR}/main.cpp
+    ${TSP_GUI_SOURCE_DIR}/MainWindow.h
+    ${TSP_GUI_SOURCE_DIR}/MainWindow.cpp
+    ${TSP_GUI_SOURCE_DIR}/TSPDrawingWidget.h
+    ${TSP_GUI_SOURCE_DIR}/TSPDrawingWidget.cpp
+    )
+
+
 target_link_libraries(TSP_GUI Qt5::WinMain)
 qt5_use_modules(TSP_GUI Widgets)
 target_link_libraries(TSP_GUI TSP)

@@ -1,3 +1,5 @@
+#include "TSPDrawingWidget.h"
+
 #include <iostream>
 
 #include <QApplication>
@@ -13,6 +15,8 @@
 
 #include <thread>
 
+using namespace TSP_GUI;
+
 namespace
 {
     TSP::TPoints _TransposePoints(const TSP::TPoints& i_points)
@@ -25,142 +29,6 @@ namespace
         return result;
     }
     
-    using TPoint = std::pair<double, double>;
-
-    TPoint operator + (const TPoint& i_pt1, const TPoint& i_pt2)
-    {
-        return TPoint{ i_pt1.first + i_pt2.first, i_pt1.second + i_pt2.second };
-    }
-
-    TPoint operator - (const TPoint& i_pt1, const TPoint& i_pt2)
-    {
-        return TPoint{ i_pt1.first - i_pt2.first, i_pt1.second - i_pt2.second };
-    }
-
-    std::pair<TPoint, TPoint> _GetPointsBounds(const TSP::TPoints& i_points)
-    {
-        TPoint pt_min{ i_points.front().x, i_points.front().y };
-        TPoint pt_max{ i_points.front().x, i_points.front().y };
-
-        for (const auto& pt : i_points)
-        {
-            if (pt.x < pt_min.first)
-                pt_min.first = pt.x;
-            if (pt.x > pt_max.first)
-                pt_max.first = pt.x;
-            if (pt.y < pt_min.second)
-                pt_min.second= pt.y;
-            if (pt.y > pt_max.second)
-                pt_max.second = pt.y;
-        }
-
-        return std::make_pair(pt_min, pt_max);
-    }
-
-    std::pair<double, double> _GetScale(const TPoint& i_max_point, const TPoint& i_max_widget_point)
-    {
-        double scale_x = i_max_point.first / i_max_widget_point.first;
-        double scale_y = i_max_point.second / i_max_widget_point.second;
-        return std::make_pair(scale_x, scale_y);
-    }
-
-    class DrawingWidget : public QWidget
-    {
-    public:
-        DrawingWidget(const TSP& i_tsp)
-            : QWidget(nullptr)
-            , m_tsp(i_tsp)
-        {
-            setStyleSheet("background-color: white");
-
-            _CalculatePointsToDraw();
-        }
-
-        void UpdatePath(const TSP::TPath& i_path)
-        {
-            m_current_path = i_path;
-            update();
-        }
-
-    private:
-        void _CalculatePointsToDraw()
-        {
-            m_points_to_draw = m_tsp.GetPoints();
-
-            // shift points
-            auto points_bounds = _GetPointsBounds(m_tsp.GetPoints());
-            for (auto& pt : m_points_to_draw)
-            {
-                pt.x -= points_bounds.first.first;
-                pt.y -= points_bounds.first.second;
-            }
-
-            // scale points
-            auto widget_size = TPoint{ width() - 2 * m_margin_x, height() - 2 * m_margin_y };
-            auto scale = _GetScale(points_bounds.second - points_bounds.first, widget_size);
-
-            double max_scale = std::max(scale.first, scale.second);
-            for (auto& pt : m_points_to_draw)
-            {
-                pt.x /= max_scale;
-                pt.y /= max_scale;
-            }
-
-            // apply margin
-            for (auto& pt : m_points_to_draw)
-            {
-                pt.x += m_margin_x;
-                pt.y += m_margin_y;
-            }
-
-        }
-
-        void paintEvent(QPaintEvent* ip_event)
-        {
-            QPainter painter(this);
-            painter.setBrush(Qt::blue);
-
-            _DrawPoints(painter);
-            _DrawPath(painter);
-        }
-
-        void _DrawPoints(QPainter& i_painter)
-        {
-            for (const auto& pt : m_points_to_draw)
-                i_painter.drawEllipse(QPoint(pt.x, pt.y), 3, 3);
-        }
-
-        void _DrawPath(QPainter& i_painter)
-        {
-            if (m_current_path.size() != m_points_to_draw.size())
-                return;
-
-            i_painter.setPen(QPen(Qt::red, 2));
-            for (size_t i = 1; i < m_current_path.size(); ++i)
-                i_painter.drawLine(
-                    QPoint(m_points_to_draw[m_current_path[i - 1]].x, m_points_to_draw[m_current_path[i - 1]].y), 
-                    QPoint(m_points_to_draw[m_current_path[i]].x,     m_points_to_draw[m_current_path[i]].y)
-                    );
-            i_painter.drawLine(
-                QPoint(m_points_to_draw[m_current_path.front()].x, m_points_to_draw[m_current_path.front()].y),
-                QPoint(m_points_to_draw[m_current_path.back()].x,  m_points_to_draw[m_current_path.back()].y)
-                );
-        }
-
-        void resizeEvent(QResizeEvent* ip_resize_event)
-        {
-            QWidget::resizeEvent(ip_resize_event);
-            _CalculatePointsToDraw();
-        }
-
-    private:
-        const TSP& m_tsp;
-        const size_t m_margin_x = 10;
-        const size_t m_margin_y = 10;
-
-        TSP::TPoints m_points_to_draw;
-        TSP::TPath m_current_path;
-    };
 
 
     TSP::TPath _PerformNextStepAndReturnBestPath(std::shared_ptr<TSPGenetic::GeneticSolver> ip_solver)
@@ -181,10 +49,10 @@ int main(int i_argc, char** i_argv)
     QApplication app(i_argc, i_argv);
     
     QPointer<DrawingWidget> p_widget = new DrawingWidget(tsp);
-    p_widget->setFixedSize(1600, 900);
+    p_widget->setFixedSize(1920, 1080);
 
     QMainWindow main_wnd;
-    main_wnd.setFixedSize(1600, 900);
+    main_wnd.setFixedSize(1920, 1080);
     main_wnd.layout()->addWidget(p_widget);
 
     main_wnd.show();
@@ -194,7 +62,7 @@ int main(int i_argc, char** i_argv)
     //p_widget->UpdatePath(best_path);
 
     auto p_solver = std::make_shared<TSPGenetic::GeneticSolver>(tsp);
-    p_solver->InitializePopulation(100000);
+    p_solver->InitializePopulation(200000);
     
     const size_t iterations = 100;
 
@@ -204,7 +72,7 @@ int main(int i_argc, char** i_argv)
         p_widget->UpdatePath(result);
         watcher.setFuture(QtConcurrent::run([&]() -> TSP::TPath 
         {
-            std::this_thread::sleep_for(std::chrono::microseconds(250));
+            //std::this_thread::sleep_for(std::chrono::microseconds(250));
             return _PerformNextStepAndReturnBestPath(p_solver);
         }));
     });
