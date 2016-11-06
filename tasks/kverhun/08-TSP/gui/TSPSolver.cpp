@@ -29,16 +29,20 @@ Solver::Solver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_f
     QObject::connect(&m_future_watcher, &QFutureWatcher<TSP::TPath>::finished, [&]() {
         auto result = m_future_watcher.result();
         m_reporter.Report(result);
-        m_future_watcher.setFuture(QtConcurrent::run([&]() -> TSP::TPath
+        
+        if (m_is_running)
         {
-            //std::this_thread::sleep_for(std::chrono::microseconds(50));
-            return _PerformNextStepAndReturnBestPath(mp_solver);
-        }));
+            m_future_watcher.setFuture(QtConcurrent::run([&]() -> TSP::TPath
+            {
+                return _PerformNextStepAndReturnBestPath(mp_solver);
+            }));
+        }
     });
 }
 
 void Solver::Start()
 {
+    m_is_running = true;
     m_future_watcher.setFuture(QtConcurrent::run([&]() -> TSP::TPath
     {
         return _PerformNextStepAndReturnBestPath(mp_solver);
@@ -47,4 +51,10 @@ void Solver::Start()
 
 void Solver::Pause()
 {
+    m_is_running = false;
+}
+
+void Solver::Resume()
+{
+    Start();
 }

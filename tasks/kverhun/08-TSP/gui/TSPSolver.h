@@ -21,6 +21,7 @@ namespace TSP_GUI
 
         void Start();
         void Pause();
+        void Resume();
         
     private:
         SolverStatusReporter m_reporter;
@@ -29,5 +30,7 @@ namespace TSP_GUI
         std::shared_ptr<TSPGenetic::GeneticSolver> mp_solver;
 
         QFutureWatcher<TSP::TPath> m_future_watcher;
+
+        bool m_is_running = false;
     };
 }
