@@ -45,6 +45,9 @@ add_library(TSP SHARED
     ${TSP_SOURCE_DIR}/GeneticAlgo.cpp
     ${TSP_SOURCE_DIR}/PredefinedConfigurations.h
     ${TSP_SOURCE_DIR}/PredefinedConfigurations.cpp
+    ${TSP_SOURCE_DIR}/ITSPSolver.h
+    ${TSP_SOURCE_DIR}/TSP2OptSolver.h
+    ${TSP_SOURCE_DIR}/TSP2OptSolver.cpp
 )
 target_compile_definitions(TSP PRIVATE TSP_LIBRARY)
 
@@ -62,8 +65,8 @@ add_executable(TSP_GUI
     ${TSP_GUI_SOURCE_DIR}/MainWindow.cpp
     ${TSP_GUI_SOURCE_DIR}/TSPDrawingWidget.h
     ${TSP_GUI_SOURCE_DIR}/TSPDrawingWidget.cpp
-    ${TSP_GUI_SOURCE_DIR}/TSPSolver.h
-    ${TSP_GUI_SOURCE_DIR}/TSPSolver.cpp
+    ${TSP_GUI_SOURCE_DIR}/TSPGeneticSolver.h
+    ${TSP_GUI_SOURCE_DIR}/TSPGeneticSolver.cpp
     ${TSP_GUI_SOURCE_DIR}/TSPSolverStatusReporter.h
     ${TSP_GUI_SOURCE_DIR}/TSPSolverStatusReporter.cpp
     )

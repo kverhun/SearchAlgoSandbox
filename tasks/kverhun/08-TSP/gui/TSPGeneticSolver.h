@@ -5,12 +5,10 @@
 #include <08-TSP/impl/TSP.h>
 
 #include <memory>
+#include <functional>
 #include <QFutureWatcher>
 
-namespace TSPGenetic
-{
-    class GeneticSolver;
-}
+class ITSPSolver;
 
 namespace TSP_GUI
 {
@@ -18,14 +16,12 @@ namespace TSP_GUI
     {
 
     public:
-        GeneticSolver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_functor);
+        GeneticSolver(const TSP& i_tsp, std::shared_ptr<ITSPSolver> ip_solver, SolverStatusReporter::TReportFunctor i_report_functor, std::function<void()> ip_setup_function = nullptr);
 
         void Start();
         void Pause();
         void Resume();
-        
-        void SetPopulationSize(size_t i_population_size);
-
+    
     private:
         void _TriggerSolverIteration();
 
@@ -33,14 +29,14 @@ namespace TSP_GUI
         SolverStatusReporter m_reporter;
         const TSP& m_tsp;
 
-        std::shared_ptr<TSPGenetic::GeneticSolver> mp_solver;
+        std::shared_ptr<ITSPSolver> mp_solver;
 
         QFutureWatcher<void> m_future_watcher;
 
         bool m_is_running = false;
 
-        size_t m_population_size;
         double m_last_iteration_duration_milliseconds;
         size_t m_last_iteration_number = 0;
+        std::function<void()> mp_setup_function = nullptr;
     };
 }
