@@ -40,5 +40,7 @@ namespace TSP_GUI
         bool m_is_running = false;
 
         size_t m_population_size;
+        double m_last_iteration_duration_milliseconds;
+        size_t m_last_iteration_number = 0;
     };
 }

@@ -12,6 +12,27 @@
 
 using namespace TSP_GUI;
 
+namespace
+{
+    QString _GetLogStringForIterationInfo(const SolverStatusReporter::GeneticAlgorithmIterationInfo& i_info)
+    {
+        std::string iteration_number_str = std::to_string(i_info.m_iteration_number);
+        std::string path_length_str = std::to_string(i_info.m_current_path_length);
+        std::string milliseconds_str = std::to_string(i_info.m_iteration_duration_milliseconds);
+
+        QString log_string;
+        log_string
+            .append("Iteration: ")
+            .append(QString::fromStdString(iteration_number_str))
+            .append("; Path length: ")
+            .append(QString::fromStdString(path_length_str))
+            .append("; Duration: ")
+            .append(QString::fromStdString(milliseconds_str));
+
+        return log_string;
+    }
+}
+
 MainWindow::MainWindow(const TSP& i_tsp)
     : m_tsp(i_tsp)
     , mp_drawing_widget(new DrawingWidget(i_tsp))
@@ -92,7 +113,7 @@ void MainWindow::_StartAlgoFromScratch()
     mp_solver = std::make_unique<Solver>(m_tsp, [this](std::shared_ptr<const TSP_GUI::SolverStatusReporter::GeneticAlgorithmIterationInfo> ip_info)
     {
         mp_drawing_widget->UpdatePath(ip_info->m_current_path);
-        mp_log_widget->append(QString::fromStdString(std::to_string(ip_info->m_current_path_length)));
+        mp_log_widget->append(_GetLogStringForIterationInfo(*ip_info.get()));
     });
     mp_solver->SetPopulationSize(mp_population_size_spinbox->value());
     mp_solver->Start();

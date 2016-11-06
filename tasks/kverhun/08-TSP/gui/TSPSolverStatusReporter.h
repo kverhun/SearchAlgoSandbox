@@ -15,7 +15,7 @@ namespace TSP_GUI
             TSP::TPath m_current_path;
             double     m_current_path_length;
             size_t     m_iteration_number;
-            size_t     m_iteration_time_milliseconds;
+            size_t     m_iteration_duration_milliseconds;
         };
 
         using TReportFunctor = std::function<void(std::shared_ptr<const GeneticAlgorithmIterationInfo>)>;
