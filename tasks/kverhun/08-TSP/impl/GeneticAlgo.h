@@ -2,11 +2,12 @@
 
 #include "_Library.h"
 #include "TSP.h"
+#include "ITSPSolver.h"
 
 namespace TSPGenetic
 {
 
-    class TSP_API GeneticSolver
+    class TSP_API GeneticSolver : public ITSPSolver
     {
     public:
         using TPopulation = std::vector<TSP::TPath>;
@@ -18,12 +19,16 @@ namespace TSPGenetic
 
         const TPopulation& GetCurrentPopulation() const;
 
-        void PerformSingleStep();
+        virtual void PerformSingleStep() override;
+
+        virtual TSP::TPath RetrieveCurrentBestPath() const override;
 
     private:
         TPopulation _GenerateRandomPopulation(size_t i_population_size);
+        TPopulation _GenerateSomePopulation(size_t i_population_size);
 
         TSP::TPath _Crossover(const TSP::TPath& i_first, const TSP::TPath& i_second);
+        TSP::TPath _Mutation(const TSP::TPath& i_path);
 
         void _SortByFitness();
     private:

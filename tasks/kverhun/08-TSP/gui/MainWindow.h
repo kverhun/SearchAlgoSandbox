@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TSPSolver.h"
+#include "TSPGeneticSolver.h"
 
 #include <QMainWindow>
 #include <QPointer>
@@ -25,7 +25,8 @@ namespace TSP_GUI
     private:
         void _InitUi();
 
-        void _StartAlgoFromScratch();
+        void _StartGeneticAlgoFromScratch();
+        void _Start2OptAlgoFromScratch();
         void _PauseAlgo();
         void _ResumeAlgo();
 

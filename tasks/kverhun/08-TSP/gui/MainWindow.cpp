@@ -2,6 +2,9 @@
 
 #include "TSPDrawingWidget.h"
 
+#include "08-TSP/impl/GeneticAlgo.h"
+#include "08-TSP/impl/TSP2OptSolver.h"
+
 #include <QWidget>
 #include <QLayout>
 #include <QPushButton>
@@ -65,10 +68,15 @@ void MainWindow::_InitUi()
             {
                 auto* p_ver_layout = new QVBoxLayout;
 
-                auto* p_start_from_scratch_button = new QPushButton;
-                p_start_from_scratch_button->setText("Start");
-                QObject::connect(p_start_from_scratch_button, &QPushButton::clicked, this, &MainWindow::_StartAlgoFromScratch);
-                p_ver_layout->addWidget(p_start_from_scratch_button);
+                auto* p_start_genetic_from_scratch_button = new QPushButton;
+                p_start_genetic_from_scratch_button->setText("Start genetic algo");
+                QObject::connect(p_start_genetic_from_scratch_button, &QPushButton::clicked, this, &MainWindow::_StartGeneticAlgoFromScratch);
+                p_ver_layout->addWidget(p_start_genetic_from_scratch_button);
+
+                auto* p_start_2opt_from_scratch_button = new QPushButton;
+                p_start_2opt_from_scratch_button->setText("Start 2-opt algo");
+                QObject::connect(p_start_2opt_from_scratch_button, &QPushButton::clicked, this, &MainWindow::_Start2OptAlgoFromScratch);
+                p_ver_layout->addWidget(p_start_2opt_from_scratch_button);
 
                 auto* p_pause_button = new QPushButton;
                 p_pause_button->setText("Pause");
@@ -108,14 +116,32 @@ void MainWindow::_InitUi()
     setCentralWidget(p_central_widget);
 }
 
-void MainWindow::_StartAlgoFromScratch()
+void MainWindow::_StartGeneticAlgoFromScratch()
 {
-    mp_solver = std::make_unique<GeneticSolver>(m_tsp, [this](std::shared_ptr<const TSP_GUI::SolverStatusReporter::GeneticAlgorithmIterationInfo> ip_info)
+    auto p_genetic_solver = std::make_shared<TSPGenetic::GeneticSolver>(m_tsp);
+    
+    auto setup_solver = [&]() {p_genetic_solver->InitializePopulation(mp_population_size_spinbox->value()); };
+
+    mp_solver = std::make_unique<GeneticSolver>(m_tsp, p_genetic_solver, [this](std::shared_ptr<const TSP_GUI::SolverStatusReporter::GeneticAlgorithmIterationInfo> ip_info)
+    {
+        mp_drawing_widget->UpdatePath(ip_info->m_current_path);
+        mp_log_widget->append(_GetLogStringForIterationInfo(*ip_info.get()));
+    }, setup_solver);
+    
+    mp_solver->Start();
+}
+
+void MainWindow::_Start2OptAlgoFromScratch()
+{
+    auto starting_path = m_tsp.GenerateSomePath();
+    auto p_2opt_solver = std::make_shared<TSP2OptSolver>(m_tsp, starting_path);
+
+    mp_solver = std::make_unique<GeneticSolver>(m_tsp, p_2opt_solver, [this](std::shared_ptr<const TSP_GUI::SolverStatusReporter::GeneticAlgorithmIterationInfo> ip_info)
     {
         mp_drawing_widget->UpdatePath(ip_info->m_current_path);
         mp_log_widget->append(_GetLogStringForIterationInfo(*ip_info.get()));
     });
-    mp_solver->SetPopulationSize(mp_population_size_spinbox->value());
+
     mp_solver->Start();
 }
 
