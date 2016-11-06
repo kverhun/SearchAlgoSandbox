@@ -4,6 +4,9 @@
 
 #include <QMainWindow>
 #include <QPointer>
+
+#include <memory>
+
 class TSP;
 
 namespace TSP_GUI
@@ -18,9 +21,17 @@ namespace TSP_GUI
         QPointer<DrawingWidget> GetDrawingWidget();
 
     private:
+        void _InitUi();
+
+        void _StartAlgoFromScratch();
+        void _PauseAlgo();
+        void _ResumeAlgo();
+
+    private:
         QPointer<DrawingWidget> mp_drawing_widget;
 
-        Solver m_solver;
+        const TSP& m_tsp;
+        std::unique_ptr<Solver> mp_solver;
 
     };
 }
