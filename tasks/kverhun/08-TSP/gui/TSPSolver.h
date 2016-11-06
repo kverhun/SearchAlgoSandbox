@@ -14,11 +14,11 @@ namespace TSPGenetic
 
 namespace TSP_GUI
 {
-    class Solver
+    class GeneticSolver
     {
 
     public:
-        Solver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_functor);
+        GeneticSolver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_functor);
 
         void Start();
         void Pause();

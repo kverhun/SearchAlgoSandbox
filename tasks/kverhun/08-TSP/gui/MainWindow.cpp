@@ -110,7 +110,7 @@ void MainWindow::_InitUi()
 
 void MainWindow::_StartAlgoFromScratch()
 {
-    mp_solver = std::make_unique<Solver>(m_tsp, [this](std::shared_ptr<const TSP_GUI::SolverStatusReporter::GeneticAlgorithmIterationInfo> ip_info)
+    mp_solver = std::make_unique<GeneticSolver>(m_tsp, [this](std::shared_ptr<const TSP_GUI::SolverStatusReporter::GeneticAlgorithmIterationInfo> ip_info)
     {
         mp_drawing_widget->UpdatePath(ip_info->m_current_path);
         mp_log_widget->append(_GetLogStringForIterationInfo(*ip_info.get()));
