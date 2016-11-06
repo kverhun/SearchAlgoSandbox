@@ -23,9 +23,6 @@ QPointer<DrawingWidget> MainWindow::GetDrawingWidget()
 
 void MainWindow::_InitUi()
 {
-    //mp_drawing_widget->setFixedSize(800, 600);
-    setFixedSize(1920, 1080);
-
     auto* p_hor_layout = new QHBoxLayout;
     p_hor_layout->addWidget(mp_drawing_widget);
     
