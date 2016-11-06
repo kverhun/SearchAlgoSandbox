@@ -28,7 +28,7 @@ namespace
     const size_t g_default_population_size = 200000;
 }
 
-Solver::Solver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_functor)
+GeneticSolver::GeneticSolver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_functor)
     : m_reporter(i_report_functor)
     , m_tsp(i_tsp)
     , m_population_size(g_default_population_size)
@@ -48,7 +48,7 @@ Solver::Solver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_f
     });
 }
 
-void Solver::Start()
+void GeneticSolver::Start()
 {
     mp_solver = std::make_shared<TSPGenetic::GeneticSolver>(m_tsp);
     mp_solver->InitializePopulation(m_population_size);
@@ -58,18 +58,18 @@ void Solver::Start()
     _TriggerSolverIteration();
 }
 
-void Solver::Pause()
+void GeneticSolver::Pause()
 {
     m_is_running = false;
 }
 
-void Solver::Resume()
+void GeneticSolver::Resume()
 {
     m_is_running = true;
     _TriggerSolverIteration();
 }
 
-void Solver::_TriggerSolverIteration()
+void GeneticSolver::_TriggerSolverIteration()
 {
     m_future_watcher.setFuture(QtConcurrent::run([&]() 
     { 
@@ -84,7 +84,7 @@ void Solver::_TriggerSolverIteration()
     }));
 }
 
-void Solver::SetPopulationSize(size_t i_population_size)
+void GeneticSolver::SetPopulationSize(size_t i_population_size)
 {
     m_population_size = i_population_size;
 }

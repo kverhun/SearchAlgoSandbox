@@ -35,7 +35,7 @@ namespace TSP_GUI
         QPointer<QSpinBox>      mp_population_size_spinbox;
 
         const TSP& m_tsp;
-        std::unique_ptr<Solver> mp_solver;
+        std::unique_ptr<GeneticSolver> mp_solver;
 
     };
 }
