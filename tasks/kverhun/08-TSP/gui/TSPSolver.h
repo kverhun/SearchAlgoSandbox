@@ -16,6 +16,7 @@ namespace TSP_GUI
 {
     class Solver
     {
+
     public:
         Solver(const TSP& i_tsp, SolverStatusReporter::TReportFunctor i_report_functor);
 
@@ -23,14 +24,21 @@ namespace TSP_GUI
         void Pause();
         void Resume();
         
+        void SetPopulationSize(size_t i_population_size);
+
+    private:
+        void _TriggerSolverIteration();
+
     private:
         SolverStatusReporter m_reporter;
         const TSP& m_tsp;
 
         std::shared_ptr<TSPGenetic::GeneticSolver> mp_solver;
 
-        QFutureWatcher<TSP::TPath> m_future_watcher;
+        QFutureWatcher<void> m_future_watcher;
 
         bool m_is_running = false;
+
+        size_t m_population_size;
     };
 }

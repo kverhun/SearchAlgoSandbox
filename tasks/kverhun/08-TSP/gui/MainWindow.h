@@ -8,6 +8,8 @@
 #include <memory>
 
 class TSP;
+class QTextEdit;
+class QSpinBox;
 
 namespace TSP_GUI
 {
@@ -29,6 +31,8 @@ namespace TSP_GUI
 
     private:
         QPointer<DrawingWidget> mp_drawing_widget;
+        QPointer<QTextEdit>     mp_log_widget;
+        QPointer<QSpinBox>      mp_population_size_spinbox;
 
         const TSP& m_tsp;
         std::unique_ptr<Solver> mp_solver;

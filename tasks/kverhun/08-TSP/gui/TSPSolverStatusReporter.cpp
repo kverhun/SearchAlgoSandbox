@@ -7,7 +7,7 @@ SolverStatusReporter::SolverStatusReporter(SolverStatusReporter::TReportFunctor 
 {
 }
 
-void TSP_GUI::SolverStatusReporter::Report(const TSP::TPath& i_path)
+void TSP_GUI::SolverStatusReporter::Report(std::shared_ptr<const GeneticAlgorithmIterationInfo> i_info)
 {
-    m_report_functor(i_path);
+    m_report_functor(i_info);
 }
