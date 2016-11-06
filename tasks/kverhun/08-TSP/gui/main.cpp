@@ -36,7 +36,7 @@ int main(int i_argc, char** i_argv)
 {
     std::cout << "Start application..." << std::endl;
 
-    TSP::TPoints points = _TransposePoints(PredefiedConfigurations::g_config_states);
+    TSP::TPoints points = _TransposePoints(PredefiedConfigurations::g_predefined_configuration_2000);
     TSP tsp(points);
 
     QApplication app(i_argc, i_argv);
