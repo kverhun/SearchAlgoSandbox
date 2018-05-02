@@ -34,8 +34,8 @@ project(Algorithms)
 ####################################################
 # TSP
 ####################################################
-set(TSP_SOURCE_DIR 08-TSP/impl)
-set(TSP_TEST_DIR 08-TSP/unit_tests) 
+set(TSP_SOURCE_DIR src/impl)
+set(TSP_TEST_DIR src/unit_tests) 
 
 add_library(TSP SHARED
     ${TSP_SOURCE_DIR}/_Library.h
@@ -58,7 +58,7 @@ add_executable(TSP_Tests
 target_link_libraries(TSP_Tests PUBLIC TSP)
 add_dependencies(TSP_Tests TSP)
 
-set(TSP_GUI_SOURCE_DIR 08-TSP/gui)
+set(TSP_GUI_SOURCE_DIR src/gui)
 add_executable(TSP_GUI 
     ${TSP_GUI_SOURCE_DIR}/main.cpp
     ${TSP_GUI_SOURCE_DIR}/MainWindow.h
