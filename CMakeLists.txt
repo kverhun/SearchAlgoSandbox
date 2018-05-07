@@ -21,7 +21,7 @@ ExternalProject_Get_Property(catch source_dir)
 set(CATCH_INCLUDE_DIR ${source_dir}/include CACHE INTERNAL "./catch")
 
 # Qt
-set(CMAKE_PREFIX_PATH "D:/dev/Qt/5.7/msvc2015_64")
+set(CMAKE_PREFIX_PATH "/opt/Qt5.8.0/5.8/gcc_64")
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
