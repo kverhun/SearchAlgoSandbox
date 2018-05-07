@@ -2,6 +2,7 @@
 
 #include "_Library.h"
 
+#include <cstddef>
 #include <vector>
 
 class TSP_API TSP

@@ -5,7 +5,7 @@
 class ITSPSolver
 {
 public:
-    virtual ~ITSPSolver() = 0 { }
+    virtual ~ITSPSolver() { }
 
     virtual void PerformSingleStep() = 0;
 
