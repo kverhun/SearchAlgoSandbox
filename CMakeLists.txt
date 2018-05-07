@@ -34,8 +34,8 @@ project(Algorithms)
 ####################################################
 # TSP
 ####################################################
-set(TSP_SOURCE_DIR 08-TSP/impl)
-set(TSP_TEST_DIR 08-TSP/unit_tests) 
+set(TSP_SOURCE_DIR src/impl)
+set(TSP_TEST_DIR src/unit_tests) 
 
 add_library(TSP SHARED
     ${TSP_SOURCE_DIR}/_Library.h
