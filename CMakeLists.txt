@@ -75,7 +75,7 @@ add_executable(TSP_GUI
     )
 
 
-target_link_libraries(TSP_GUI Qt5::WinMain)
+#target_link_libraries(TSP_GUI Qt5::WinMain)
 qt5_use_modules(TSP_GUI Widgets)
 target_link_libraries(TSP_GUI TSP)
 ####################################################

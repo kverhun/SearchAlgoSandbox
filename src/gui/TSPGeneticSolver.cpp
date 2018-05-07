@@ -1,8 +1,8 @@
 #include "TSPGeneticSolver.h"
 
-#include <08-TSP/impl/GeneticAlgo.h>
+#include "../impl/GeneticAlgo.h"
 
-#include <Qfuture>
+#include <QFuture>
 #include <QFutureWatcher>
 #include <QtConcurrent/qtconcurrentrun.h>
 

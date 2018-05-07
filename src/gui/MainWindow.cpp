@@ -2,8 +2,8 @@
 
 #include "TSPDrawingWidget.h"
 
-#include "08-TSP/impl/GeneticAlgo.h"
-#include "08-TSP/impl/TSP2OptSolver.h"
+#include "../impl/GeneticAlgo.h"
+#include "../impl/TSP2OptSolver.h"
 
 #include <QWidget>
 #include <QLayout>
