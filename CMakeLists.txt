@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required (VERSION 3.5)
 
 project(catch_builder CXX)
 include(ExternalProject)
@@ -8,8 +8,9 @@ ExternalProject_Add(
     catch
     PREFIX ${CMAKE_BINARY_DIR}/catch
     GIT_REPOSITORY https://github.com/philsquared/Catch.git
+    GIT_TAG v1.10.0
     TIMEOUT 10
-    UPDATE_COMMAND ${GIT_EXECUTABLE} pull
+    UPDATE_COMMAND ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -21,7 +22,7 @@ ExternalProject_Get_Property(catch source_dir)
 set(CATCH_INCLUDE_DIR ${source_dir}/include CACHE INTERNAL "./catch")
 
 # Qt
-set(CMAKE_PREFIX_PATH "D:/dev/Qt/5.7/msvc2015_64")
+set(CMAKE_PREFIX_PATH $ENV{QTDIR})
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
@@ -31,11 +32,13 @@ find_package(Qt5Core REQUIRED)
 
 project(Algorithms)
 
+set(CMAKE_CXX_STANDARD 14)
+
 ####################################################
 # TSP
 ####################################################
-set(TSP_SOURCE_DIR 08-TSP/impl)
-set(TSP_TEST_DIR 08-TSP/unit_tests) 
+set(TSP_SOURCE_DIR src/impl)
+set(TSP_TEST_DIR src/unit_tests) 
 
 add_library(TSP SHARED
     ${TSP_SOURCE_DIR}/_Library.h
@@ -58,7 +61,7 @@ add_executable(TSP_Tests
 target_link_libraries(TSP_Tests PUBLIC TSP)
 add_dependencies(TSP_Tests TSP)
 
-set(TSP_GUI_SOURCE_DIR 08-TSP/gui)
+set(TSP_GUI_SOURCE_DIR src/gui)
 add_executable(TSP_GUI 
     ${TSP_GUI_SOURCE_DIR}/main.cpp
     ${TSP_GUI_SOURCE_DIR}/MainWindow.h
@@ -72,7 +75,7 @@ add_executable(TSP_GUI
     )
 
 
-target_link_libraries(TSP_GUI Qt5::WinMain)
+#target_link_libraries(TSP_GUI Qt5::WinMain)
 qt5_use_modules(TSP_GUI Widgets)
 target_link_libraries(TSP_GUI TSP)
 ####################################################

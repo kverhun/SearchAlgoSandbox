@@ -1,6 +1,6 @@
 #pragma once
 
-#include <08-TSP/impl/TSP.h>
+#include "../impl/TSP.h"
 
 #include <functional>
 #include <memory>

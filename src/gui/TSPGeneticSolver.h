@@ -2,7 +2,7 @@
 
 #include "TSPSolverStatusReporter.h"
 
-#include <08-TSP/impl/TSP.h>
+#include "../impl/TSP.h"
 
 #include <memory>
 #include <functional>

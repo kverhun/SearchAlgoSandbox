@@ -6,13 +6,13 @@
 #include <QApplication>
 #include <QtWidgets>
 #include <QPainter>
-#include <Qfuture>
+#include <QFuture>
 #include <QFutureWatcher>
 #include <QtConcurrent/qtconcurrentrun.h>
 
-#include <08-TSP\impl\TSP.h>
-#include <08-TSP\impl\PredefinedConfigurations.h>
-#include <08-TSP\impl\GeneticAlgo.h>
+#include "../impl/TSP.h"
+#include "../impl/PredefinedConfigurations.h"
+#include "../impl/GeneticAlgo.h"
 
 #include <thread>
 
